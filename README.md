@@ -35,7 +35,7 @@ This repository demonstrates both `face liveness detectio`n and `face recognitio
   | 3        | [Face Recognition - Android](https://github.com/kby-ai/FaceRecognition-Android)    | Standard SDK |
   | 4        | [Face Recognition - iOS](https://github.com/kby-ai/FaceRecognition-iOS)    | Standard SDK |
   | 5        | [Face Recognition - Flutter](https://github.com/kby-ai/FaceRecognition-Flutter)        | Standard SDK |
-  | ➡️        | <b>[Face Recognition - Ionic Cordova](https://github.com/kby-ai/FaceRececogniion-Ionic-Cordova)</b>        | <b>Standard SDK</b> |
+  | ➡️        | <b>[Face Recognition - Ionic-Cordova](https://github.com/kby-ai/FaceRececogniion-Ionic-Cordova)</b>        | <b>Standard SDK</b> |
   | 7        | [Face Recognition - React-Native](https://github.com/kby-ai/FaceRecognition-React-Native)        | Standard SDK |
   | 8        | [Face Attribute - Android](https://github.com/kby-ai/FaceAttribute-Android)        | Premium SDK |
   | 9        | [Face Attribute - iOS](https://github.com/kby-ai/FaceAttribute-iOS)        | Premium SDK |
