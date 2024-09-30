@@ -1,0 +1,14 @@
+{
+    "name": "FacePlugin",
+    "version": "0.0.1",
+    "description": "A face detection offline with a few lines of code. Was designed to run on old smartphones.",
+    "cordova": {
+      "id": "cordova-plugin-ttvface",
+      "platforms": [
+        "ios",
+        "android",
+        "browser"
+      ]
+    }
+  }
+  

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.ttv.face.plugin" version="0.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>FacePlugin</name>
+    <js-module name="FacePlugin" src="www/FacePlugin.js">
+        <clobbers target="FacePlugin" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="FacePlugin">
+                <param name="android-package" value="com.ttv.face.plugin.FacePlugin" />
+            </feature>
+            <preference name="AndroidXEnabled" value="true" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:label="Camera Activity" android:name="com.ttv.facerecog.CameraActivity" android:theme="@style/Theme.AppCompat"></activity>
+        </config-file>
+        <!-- <config-file target="AndroidManifest.xml" parent="/*" mode="merge">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        </config-file> -->
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <source-file src="src/android/FacePlugin.java" target-dir="src/com/ttv/face/plugin" />
+        <source-file src="src/android/CameraActivity.java" target-dir="src/com/ttv/facerecog" />
+        <source-file src="src/android/FaceRectTransformer.java" target-dir="src/com/ttv/facerecog" />
+        <source-file src="src/android/FaceRectView.java" target-dir="src/com/ttv/facerecog" />
+        <source-file src="src/android/ImageRotator.java" target-dir="src/com/ttv/facerecog" />
+        <source-file src="src/android/PermissionsDelegate.java" target-dir="src/com/ttv/facerecog" />
+        <source-file src="src/android/activity_camera.xml" target-dir="res/layout"/>
+        <source-file src="src/android/ic_refresh.xml" target-dir="res/drawable"/>
+        <source-file src="src/android/build-extras.gradle" target-dir="."/>
+        <framework src="src/android/aarintegration.gradle" custom="true" type="gradleReference"/>
+        <resource-file src="src/android/facesdk.aar" target="libs/facesdk.aar"/>
+
+        <framework src="androidx.appcompat:appcompat:1.1.0" />
+        <framework src="com.google.android.material:material:1.1.0-alpha05" />
+        <framework src="androidx.constraintlayout:constraintlayout:2.1.2" />
+        <framework src="androidx.camera:camera-core:1.0.0-beta12" />
+        <framework src="androidx.camera:camera-camera2:1.0.0-beta12" />
+        <framework src="androidx.camera:camera-lifecycle:1.0.0-beta12" />
+        <framework src="androidx.camera:camera-view:1.0.0-alpha19" />
+    </platform>
+
+  <platform name="ios">
+
+    <config-file target="config.xml" parent="/widget">
+      <feature name="FacePlugin">
+        <param name="ios-package" value="FacePlugin" />
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/FacePlugin.h" target-dir="FacePlugin"/>
+    <source-file src="src/ios/FacePlugin.m" target-dir="FacePlugin"/>
+    <header-file src="src/ios/FaceView.h" target-dir="FacePlugin"/>
+    <source-file src="src/ios/FaceView.m" target-dir="FacePlugin"/>
+    <header-file src="src/ios/VideoViewController.h" target-dir="FacePlugin"/>
+    <source-file src="src/ios/VideoViewController.mm" target-dir="FacePlugin"/>
+
+    <source-file src="src/ios/facesdk.framework" target-dir="lib" framework="true"/>
+    <framework src="src/ios/facesdk.framework" embed="true" custom="true"/>
+    <header-file src="src/ios/facesdk.framework/Headers/facesdk.h" target-dir="FacePlugin"/>
+    <header-file src="src/ios/facesdk.framework/Headers/facesdk_api.h" target-dir="FacePlugin"/>
+    
+    <resource-file src="src/ios/ic_switch.png" />
+
+
+  </platform>
+</plugin>
