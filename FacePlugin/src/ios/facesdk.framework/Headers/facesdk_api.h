@@ -23,31 +23,13 @@ enum SDK_ERROR
 @property (nonatomic) float yaw;
 @property (nonatomic) float roll;
 @property (nonatomic) float pitch;
-@property (nonatomic) int age;
-@property (nonatomic) int gender;
-@property (nonatomic) float left_eye;
-@property (nonatomic) float right_eye;
-@property (nonatomic) float face_occlusion;
-@property (nonatomic) float face_quality;
-@property (nonatomic) float face_luminance;
-@property (nonatomic) float face_mouth_opened;
-@property (atomic) NSData* landmark;
 @end
-
-@interface FaceDetectionParam: NSObject
-@property (nonatomic) bool check_liveness;
-@property (nonatomic) bool check_eye_closeness;
-@property (nonatomic) bool check_face_occlusion;
-@property (nonatomic) bool check_mouth_opened;
-@property (nonatomic) bool estimate_age_gender;
-@end
-
 
 @interface FaceSDK : NSObject
 
 +(int) setActivation: (NSString*) license;
 +(int) initSDK;
-+(NSMutableArray*) faceDetection: (UIImage*) image param: (FaceDetectionParam*) param;
++(NSMutableArray*) faceDetection: (UIImage*) image;
 +(NSData*) templateExtraction: (UIImage*) image faceBox: (FaceBox*) faceBox;
 +(float) similarityCalculation: (NSData*) templates1 templates2: (NSData*) templates2;
 

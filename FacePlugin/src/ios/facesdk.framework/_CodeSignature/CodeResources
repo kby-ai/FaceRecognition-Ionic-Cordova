@@ -10,7 +10,7 @@
 		</data>
 		<key>Headers/facesdk_api.h</key>
 		<data>
-		Ts2qiHASCpGTl7eniw4GomKTJGE=
+		nvq2BAwf5zwJ4Ztl7CQydAFcrZo=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -20,10 +20,6 @@
 		<data>
 		X8zglrv2quSgEMFeVf0TybJa6gA=
 		</data>
-		<key>ag.bin</key>
-		<data>
-		vgCA5hPDLtSxGWCo886AQF/abXo=
-		</data>
 		<key>detection.bin</key>
 		<data>
 		G52JYi47ACwak8HkEcpkm9zo1as=
@@ -31,14 +27,6 @@
 		<key>detection.param</key>
 		<data>
 		tHFm7ohczZG7KEtACVgRSjX3XIA=
-		</data>
-		<key>ec.bin</key>
-		<data>
-		BQzAFyQidHaCWg0Pr7UK3QmaVVI=
-		</data>
-		<key>ec.param.bin</key>
-		<data>
-		A3Fh49MUaCPrsIDYLKP9epwcFx4=
 		</data>
 		<key>landmark.bin</key>
 		<data>
@@ -50,15 +38,11 @@
 		</data>
 		<key>liveness.bin</key>
 		<data>
-		kh7Vc8Nd8tkZBc6izcjU9ljmxpw=
+		qh1obYoGNe0LoyD5JBmUkdeYrEY=
 		</data>
 		<key>mfn.bin</key>
 		<data>
 		44c7zIxObpyYRRgGO9WjmAsw/s0=
-		</data>
-		<key>occ.bin</key>
-		<data>
-		0A+2lZ1ELppBcl6rq/KQdCS8iyU=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -74,7 +58,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wK2xu6IJ+KI8evbJ/6eqigcchjKuEhfvmHL2c+PjnJA=
+			AzDRsIwSMWBPsvoOmXuBP3EefyILyncJlo/a6keydI0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -82,13 +66,6 @@
 			<key>hash2</key>
 			<data>
 			MPLn3hXOxK25/iaEZAyvAIf2qaUvsHUOWkHsaZrg7LY=
-			</data>
-		</dict>
-		<key>ag.bin</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			cVeq8UFUy/qXj1Sqiv745ZM+52Gg0WWrz3nNds8+35A=
 			</data>
 		</dict>
 		<key>detection.bin</key>
@@ -103,20 +80,6 @@
 			<key>hash2</key>
 			<data>
 			yb/QW3dSgGun1LdCqss+oipjB11F0sE0NtewKSJibFo=
-			</data>
-		</dict>
-		<key>ec.bin</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			q65m/Fn/r61xbEyRmMchVjG8BBMPJU95ZBA0YwbJvbU=
-			</data>
-		</dict>
-		<key>ec.param.bin</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			VGYoeS+Nt1c15g6vqFWdslY6TJ/ovNY0Q3elP255Ztg=
 			</data>
 		</dict>
 		<key>landmark.bin</key>
@@ -137,7 +100,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bO4q3TRdWWN1VbSbH7h0FpcOc8yvqkseFW6GGAsSbEY=
+			3XjsZ9HffijptH6kD8YcgXR9DwsM2tDsYTNDvdErRkE=
 			</data>
 		</dict>
 		<key>mfn.bin</key>
@@ -145,13 +108,6 @@
 			<key>hash2</key>
 			<data>
 			NZcoiSgg4LgzyYzDPjuYJ+d2nbqCFMR2pg9ZrjwPtDE=
-			</data>
-		</dict>
-		<key>occ.bin</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			uEETiCJKIQY5PymWTWt5fUq4+UuQZdAYYIMX7XzwfMg=
 			</data>
 		</dict>
 	</dict>
