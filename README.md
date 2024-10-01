@@ -9,7 +9,7 @@
 #### 💼 KYC Verification Demo - [Here](https://github.com/kby-ai/KYC-Verification-Demo-Android)
 #### 🙋‍♀️ Docker Hub - [Here](https://hub.docker.com/u/kbyai)
 
-# FaceRececogniion-Ionic-Cordova
+# FaceRecognition-Ionic-Cordova
 This repository demonstrates both `face liveness detectio`n and `face recognition` technology for `Ionic Cordova` on `Android` and `iOS` platforms.
 
 > In this repository, we integrated `KBY-AI`'s `face liveness detection` and `face recognition` technology into this `Flutter` project for both `Android` and `iOS`.</br>
