@@ -92,61 +92,61 @@ This repo integrated `KBY-AI`'s `face recognition SDK`, which requires a license
 ### 1. Prerequisites
 #### Node.js and npm:
 
-- You can download and install from Node.js website.
+- You can download and install from `Node.js` website.
 After installation, verify by running:
 
-```
+```bash
 node -v
 npm -v
 ```
 #### Ionic CLI: Install the Ionic CLI globally with npm:
-```
+```bash
 npm install -g @ionic/cli
 ```
 
 #### Cordova CLI: You also need Cordova installed globally:
-```
+```bash
 npm install -g cordova
 ```
 
 ### 2. Running the Android App
-  <b>Add FacePlugin to the Project</b> Run the following command to add the FacePlugin to your Ionic Cordova project:
+  <b>Add `FacePlugin` to the Project</b> Run the following command to add the `FacePlugin` to your `Ionic Cordova` project:
   
-  ```
+  ```bash
   ionic cordova plugin add ./FacePlugin  
   ```  
-  <b>Build the Android App</b> After adding the plugin, build the Android app:
-  ```
+  <b>Build the `Android` App</b> After adding the plugin, build the `Android` app:
+  ```bash
   ionic cordova build android
   ```
-  <b>Add Camera Permission</b> To allow camera access, add the following permission to the AndroidManifest.xml file located at platforms/android/app/src/main/AndroidManifest.xml:
-  ```
+  <b>Add `Camera Permission`</b> To allow camera access, add the following permission to the `AndroidManifest.xml` file located at `platforms/android/app/src/main/AndroidManifest.xml`:
+  ```xml
   <uses-permission android:name="android.permission.CAMERA" />
   ```
   <b>Run the Android App</b> Once the permission is added and the app is built, you can run it on an Android device:
-  ```
+  ```bash
   ionic cordova run android
   ```
 ### 3. Running the iOS App
-  <b>Add FacePlugin to the Project</b> Run the following command to add the FacePlugin:
-  ```
+  <b>Add `FacePlugin` to the project `root` path</b> Run the following command to add the `FacePlugin`:
+  ```bash
   ionic cordova plugin add ./FacePlugin
   ```
-  <b>Add the iOS Platform</b> Add the iOS platform to your project:
-  ```
+  <b>Add the `iOS` Platform</b> Add the `iOS` platform to your project:
+  ```bash
   ionic cordova platform add ios
   ```
-  <b>Prepare the iOS Project</b> Prepare the project for iOS:
-  ```
+  <b>Prepare the `iOS` Project</b> Prepare the project for `iOS`:
+  ```bash
   ionic cordova prepare ios
   ```
-  <b>Add Camera Permission to Info.plist</b> Open the iOS workspace in Xcode:
-  ```
+  <b>Add `Camera Permission` to `Info.plist`</b> Open the `iOS` workspace in `Xcode`:
+  ```bash
   open platforms/ios/face-recognition.xcworkspace
   ```
-  Then, in Xcode, navigate to the Info.plist file and add the following entry to request camera permission:
-  ```
+  Then, in `Xcode`, navigate to the `Info.plist` file and add the following entry to request camera permission:
+  ```xml
   <key>NSCameraUsageDescription</key>
   <string>We need access to your camera for face recognition.</string>
   ```
-  Build the App with Xcode Finally, use Xcode to build and run the app on a real device.
+  Build the App with `Xcode` Finally, use `Xcode` to build and run the app on a real device.
