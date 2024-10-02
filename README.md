@@ -132,11 +132,11 @@ npm install -g cordova
   ```bash
   ionic cordova plugin add ./FacePlugin
   ```
-  <b>Add the `iOS` Platform</b></br>Add the `iOS` platform to your project:
+  <b>Add the `iOS` Platform</b></br>
   ```bash
   ionic cordova platform add ios
   ```
-  <b>Prepare the `iOS` Project</b></br>:
+  <b>Prepare the `iOS` Project</b></br>
   ```bash
   ionic cordova prepare ios
   ```
