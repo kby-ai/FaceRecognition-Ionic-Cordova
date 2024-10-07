@@ -151,4 +151,3 @@ npm install -g cordova
   ```
   Build the app with `Xcode` and run it on a real `iOS` device, not simulator.
 
-[![Visitors](https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fgithub.com%2Fkby-ai%2FFaceRecognition-Ionic-Cordova&countColor=%23263759)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fkby-ai%2FFaceRecognition-Ionic-Cordova)
