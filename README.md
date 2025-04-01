@@ -86,7 +86,7 @@ You can visit our YouTube video [here](https://www.youtube.com/watch?v=HpDggnWsG
 ## SDK License
 
 This repo integrated `KBY-AI`'s `face recognition SDK`, which requires a license for each `application ID`.</br>
-- The code below shows how to use the license: https://github.com/kby-ai/FaceRecognition-Ionic-Cordova/blob/5f9671ac889d4f8bb6739bac54c538e76ac5f9db/src/app/home/home.page.ts#L14-L62
+- The code below shows how to use the license: https://github.com/kby-ai/FaceRecognition-FaceLivenessDetection-Ionic-Cordova/blob/fe411283d0caeed532eaa0e2a133199724375efd/src/app/home/home.page.ts#L29-L35
 
 - To request a license, please contact us:</br>
 🧙`Email:` contact@kby-ai.com</br>
