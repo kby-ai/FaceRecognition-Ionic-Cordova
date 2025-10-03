@@ -82,15 +82,16 @@ import org.json.JSONObject;
 public class CameraActivity extends AppCompatActivity {
 
     private static final String TAG = CameraActivity.class.getSimpleName();
+    public static Map<String,byte[]> userLists = new HashMap<String, byte[]>();
     private final PermissionsDelegate permissionsDelegate = new PermissionsDelegate(this);
     private boolean hasPermission;
 
     private final int MSG_UPDATE_FACE = 0;
     private final int MSG_CLEAR_FACE = 1;
 
-    private final float THRESHOLD_REGISTER = 75.0f;
-    private final float THRESHOLD_VERIFY = 75.0f;
-    private final float THRESHOLD_LIVENESS = 0.8f;
+    private final float THRESHOLD_REGISTER = 0.78f;
+    private final float THRESHOLD_VERIFY = 0.78f;
+    private final float THRESHOLD_LIVENESS = 0.7f;
     
     /**
      * Blocking camera operations are performed using this executor
@@ -125,38 +126,38 @@ public class CameraActivity extends AppCompatActivity {
 
             switch (msg.what) {
                 case MSG_UPDATE_FACE: {
-                    // List<FaceResult> faceResults = (List<FaceResult>)msg.obj;
-                    // if(m_faceRectTransformer == null)
-                    // {
-                    //     int displayOrientation = 0;
-                    //     Size frameSize = new Size(720, 1280);
-                    //     ViewGroup.LayoutParams layoutParams = adjustPreviewViewSize(m_viewFinder, m_rectanglesView);
+                     List<FaceBox> faceResults = (List<FaceBox>)msg.obj;
+                    if(m_faceRectTransformer == null)
+                    {
+                        int displayOrientation = 0;
+                        Size frameSize = new Size(720, 1280);
+                        ViewGroup.LayoutParams layoutParams = adjustPreviewViewSize(m_viewFinder, m_rectanglesView);
 
-                    //             m_faceRectTransformer = new FaceRectTransformer(
-                    //             frameSize.getWidth(), frameSize.getHeight(),
-                    //             m_viewFinder.getLayoutParams().width, m_viewFinder.getLayoutParams().height,
-                    //             displayOrientation, m_lensFacing == CameraSelector.LENS_FACING_FRONT ? 0 : 1, false,
-                    //             true,
-                    //             false);
-                    // }
+                                m_faceRectTransformer = new FaceRectTransformer(
+                                frameSize.getWidth(), frameSize.getHeight(),
+                                m_viewFinder.getLayoutParams().width, m_viewFinder.getLayoutParams().height,
+                                displayOrientation, m_lensFacing == CameraSelector.LENS_FACING_FRONT ? 0 : 1, false,
+                                true,
+                                false);
+                    }
 
-                    // List<FaceRectView.DrawInfo> drawInfoList = new ArrayList<>();
-                    // for(int i = 0; i < faceResults.size(); i ++) {
-                    //     Rect rect = m_faceRectTransformer.adjustRect(new Rect(faceResults.get(i).left, faceResults.get(i).top, faceResults.get(i).right, faceResults.get(i).bottom));
+                    List<FaceRectView.DrawInfo> drawInfoList = new ArrayList<>();
+                    for(int i = 0; i < faceResults.size(); i ++) {
+                        Rect rect = m_faceRectTransformer.adjustRect(new Rect(faceResults.get(i).x1, faceResults.get(i).y1, faceResults.get(i).x2, faceResults.get(i).y2));
 
-                    //     FaceRectView.DrawInfo drawInfo;
-                    //     if(faceResults.get(i).livenessScore > 0.5)
-                    //         drawInfo = new FaceRectView.DrawInfo(rect, 0, 0, 1, Color.GREEN, "", faceResults.get(i).livenessScore, 0, 0, 0, -1);
-                    //     else if(faceResults.get(i).livenessScore < 0)
-                    //         drawInfo = new FaceRectView.DrawInfo(rect, 0, 0, -1, Color.YELLOW, "", faceResults.get(i).livenessScore, 0, 0, 0, -1);
-                    //     else
-                    //         drawInfo = new FaceRectView.DrawInfo(rect, 0, 0, 0, Color.RED, "", faceResults.get(i).livenessScore, 0, 0, 0, -1);
-                    //     drawInfo.setMaskInfo(faceResults.get(i).mask);
-                    //     drawInfoList.add(drawInfo);
-                    // }
+                        FaceRectView.DrawInfo drawInfo;
+                        if(faceResults.get(i).liveness > THRESHOLD_LIVENESS)
+                            drawInfo = new FaceRectView.DrawInfo(rect, 0, 0, 1, Color.GREEN, "", faceResults.get(i).liveness, 0, 0, 0, -1);
+                        else if(faceResults.get(i).liveness < 0)
+                            drawInfo = new FaceRectView.DrawInfo(rect, 0, 0, -1, Color.YELLOW, "", faceResults.get(i).liveness, 0, 0, 0, -1);
+                        else
+                            drawInfo = new FaceRectView.DrawInfo(rect, 0, 0, 0, Color.RED, "", faceResults.get(i).liveness, 0, 0, 0, -1);
+                        drawInfo.setMaskInfo(0);
+                        drawInfoList.add(drawInfo);
+                    }
 
-                    // m_rectanglesView.clearFaceInfo();
-                    // m_rectanglesView.addFaceInfo(drawInfoList);
+                    m_rectanglesView.clearFaceInfo();
+                    m_rectanglesView.addFaceInfo(drawInfoList);
 
                     break;
                 }
@@ -368,141 +369,139 @@ public class CameraActivity extends AppCompatActivity {
             vBuffer.get(nv21, ySize, vSize);
             uBuffer.get(nv21, ySize + vSize, uSize);            
 
-            int  rotationDegrees = 360 - imageProxy.getImageInfo().getRotationDegrees();
-            // Bitmap bitmap = FaceEngine.getInstance().yuvToBitmap(nv21, image.getWidth(), image.getHeight(), image.getWidth(), image.getHeight(), rotationDegrees, true);            
-            // List<FaceResult> faceResults = FaceEngine.getInstance().detectFaceFromBitmap(bitmap, 1);            
+            Bitmap bitmap  = FaceSDK.yuv2Bitmap(nv21, image.getWidth(), image.getHeight(), 7);
 
-            // if(faceResults.size() == 1) {
+            FaceDetectionParam faceDetectionParam = new FaceDetectionParam();
+            faceDetectionParam.check_liveness = true;
+            faceDetectionParam.check_liveness_level = 0;
+            List<FaceBox> faceResults = FaceSDK.faceDetection(bitmap, faceDetectionParam);
+            Log.e("TestEngine", "faceResults: " + faceResults.size());
+            if(faceResults.size() == 1) {
+                FaceBox faceBox = faceResults.get(0);
+                byte[] templates = FaceSDK.templateExtraction(bitmap, faceBox);
+                if(m_mode == 0) {
 
-            //     FaceEngine.getInstance().extractFeatureFromBitmap(bitmap, faceResults);
-            //     if(m_mode == 0) {
+                    if(m_register == 1 && templates != null) {
+                        m_register = 0;
 
-            //         if(m_register == 1 && faceResults.get(0).feature != null && faceResults.get(0).mask != 1) {
-            //             m_register = 0;
-
-            //             Rect cropRect = getBestRect(bitmap.getWidth(), bitmap.getHeight(), 
-            //                 new Rect(faceResults.get(0).left, faceResults.get(0).top, faceResults.get(0).right, faceResults.get(0).bottom)); 
+                        Rect cropRect = getBestRect(bitmap.getWidth(), bitmap.getHeight(), 
+                            new Rect(faceResults.get(0).x1, faceResults.get(0).y1, faceResults.get(0).x2, faceResults.get(0).y2)); 
                     
-            //             Bitmap cropBitmap  = crop(bitmap, cropRect.left, cropRect.top, cropRect.right - cropRect.left, cropRect.bottom - cropRect.top, 120, 120);
+                        Bitmap cropBitmap  = crop(bitmap, cropRect.left, cropRect.top, cropRect.right - cropRect.left, cropRect.bottom - cropRect.top, 120, 120);
 
-            //             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();  
-            //             cropBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            //             byte[] byteArray = byteArrayOutputStream .toByteArray();
-            //             String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            //             String encodedFeatrure = Base64.encodeToString(floatsToBytes(faceResults.get(0).feature), Base64.DEFAULT);
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();  
+                        cropBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                        byte[] byteArray = byteArrayOutputStream .toByteArray();
+                        String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                        String encodedFeatrure = Base64.encodeToString(templates, Base64.DEFAULT);
 
-            //             String maxScoreID = "";
-            //             float maxScore = 0;
-            //             String existsID = "";
-            //             for(Map.Entry<String,float[]> entry: FaceEngine.userLists.entrySet()) {                   
-    
-            //                 float score = FaceEngine.getInstance().compareFeature(entry.getValue(), faceResults.get(0).feature);
-            //                 if(maxScore < score) {
-            //                     maxScore = score; 
-            //                     maxScoreID = entry.getKey();
-            //                 }                           
-            //             }
+                        String maxScoreID = "";
+                        float maxScore = 0;
+                        String existsID = "";
+                        for(Map.Entry<String,byte[]> entry: userLists.entrySet()) {                   
+                            float similarity = FaceSDK.similarityCalculation(entry.getValue(), templates);
+                            if(maxScore < similarity) {
+                                maxScore = similarity; 
+                                maxScoreID = entry.getKey();
+                            }                           
+                        }
 
-            //             if(maxScore > THRESHOLD_REGISTER) {
-            //                 existsID = maxScoreID;
-            //             }
+                        if(maxScore > THRESHOLD_REGISTER) {
+                            existsID = maxScoreID;
+                        }
 
-            //             Intent returnIntent = new Intent();
-            //             returnIntent.putExtra("data", encodedFeatrure);
-            //             returnIntent.putExtra("image", encodedImage);                        
-            //             returnIntent.putExtra("exists", existsID);                        
-            //             setResult(RESULT_OK,returnIntent);
-            //             finish();                        
-            //         }
-            //     } else if(m_mode == 1) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("data", encodedFeatrure);
+                        returnIntent.putExtra("image", encodedImage);                        
+                        returnIntent.putExtra("exists", existsID);                        
+                        setResult(RESULT_OK,returnIntent);
+                        finish();                        
+                    }
+                } else if(m_mode == 1) {
                     
-            //         String maxScoreID = "";
-            //         float maxScore = 0;
-            //         for(Map.Entry<String,float[]> entry: FaceEngine.userLists.entrySet()) {                   
+                    String maxScoreID = "";
+                    float maxScore = 0;
+                    for(Map.Entry<String,byte[]> entry: userLists.entrySet()) {                   
+                        float similarity = FaceSDK.similarityCalculation(templates, entry.getValue());
+                        if(maxScore < similarity) {
+                            maxScore = similarity; 
+                            maxScoreID = entry.getKey();
+                        }                           
+                    }
 
-            //             float score = FaceEngine.getInstance().compareFeature(entry.getValue(), faceResults.get(0).feature);
-            //             if(maxScore < score) {
-            //                 maxScore = score; 
-            //                 maxScoreID = entry.getKey();
-            //             }                           
-            //         }
-
-            //         String faceID = "";
-            //         if(maxScore > THRESHOLD_VERIFY) {
-            //             faceID = maxScoreID;
-            //         }
+                    String faceID = "";
+                    if(maxScore > THRESHOLD_REGISTER) {
+                        faceID = maxScoreID;
+                    }
                     
-            //         int mask = faceResults.get(0).mask == 1 ? 1 : 0;
-            //         int liveness = faceResults.get(0).livenessScore > THRESHOLD_LIVENESS ? 1 : 0;
+                    int liveness = faceResults.get(0).liveness > THRESHOLD_LIVENESS ? 1 : 0;
     
    
-            //         try {
-            //             JSONObject face_boundary = new JSONObject();
-            //             face_boundary.put("left", faceResults.get(0).left);
-            //             face_boundary.put("top", faceResults.get(0).top);
-            //             face_boundary.put("right", faceResults.get(0).right);
-            //             face_boundary.put("bottom", faceResults.get(0).bottom);
+                    try {
+                        JSONObject face_boundary = new JSONObject();
+                        face_boundary.put("left", faceResults.get(0).x1);
+                        face_boundary.put("top", faceResults.get(0).y1);
+                        face_boundary.put("right", faceResults.get(0).x2);
+                        face_boundary.put("bottom", faceResults.get(0).y2);
 
-            //             JSONObject jo = new JSONObject();
-            //             jo.put("face_id", faceID);
-            //             jo.put("mask", mask);     
-            //             jo.put("liveness", liveness);
-            //             jo.put("face_count", faceResults.size());
-            //             jo.put("face_boundary", face_boundary);
+                        JSONObject jo = new JSONObject();
+                        jo.put("face_id", faceID);
+                        jo.put("liveness", liveness);
+                        jo.put("face_count", faceResults.size());
+                        jo.put("face_boundary", face_boundary);
                         
-            //             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jo);                        
-            //             pluginResult.setKeepCallback(true);
-            //             FacePlugin.callbackContext.sendPluginResult(pluginResult);
-            //         } catch(Exception e) {}
-            //     }
-            // } else if(faceResults.size() > 1) {
-            //     if(m_mode == 1) {
-            //         try {
-            //             JSONObject face_boundary = new JSONObject();
-            //             face_boundary.put("left", faceResults.get(0).left);
-            //             face_boundary.put("top", faceResults.get(0).top);
-            //             face_boundary.put("right", faceResults.get(0).right);
-            //             face_boundary.put("bottom", faceResults.get(0).bottom);
+                        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jo);                        
+                        pluginResult.setKeepCallback(true);
+                        FacePlugin.callbackContext.sendPluginResult(pluginResult);
+                    } catch(Exception e) {}
+                }                
+            } else if(faceResults.size() > 1) {
+                if(m_mode == 1) {
+                    try {
+                        JSONObject face_boundary = new JSONObject();
+                        face_boundary.put("left", faceResults.get(0).x1);
+                        face_boundary.put("top", faceResults.get(0).y1);
+                        face_boundary.put("right", faceResults.get(0).x2);
+                        face_boundary.put("bottom", faceResults.get(0).y2);
     
-            //             JSONObject jo = new JSONObject();
-            //             jo.put("face_id", "");
-            //             jo.put("mask", 0);     
-            //             jo.put("liveness", 0);
-            //             jo.put("face_count", faceResults.size());
-            //             jo.put("face_boundary", face_boundary);
+                        JSONObject jo = new JSONObject();
+                        jo.put("face_id", "");
+                        jo.put("liveness", 0);
+                        jo.put("face_count", faceResults.size());
+                        jo.put("face_boundary", face_boundary);
                         
-            //             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jo);                        
-            //             pluginResult.setKeepCallback(true);
-            //             FacePlugin.callbackContext.sendPluginResult(pluginResult);
-            //         } catch(Exception e) {}    
-            //     }                
-            // } else {
-            //     if(m_mode == 1) {                    
-            //         try {
-            //             JSONObject face_boundary = new JSONObject();
-            //             face_boundary.put("left", -1);
-            //             face_boundary.put("top", -1);
-            //             face_boundary.put("right", -1);
-            //             face_boundary.put("bottom", -1);
+                        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jo);                        
+                        pluginResult.setKeepCallback(true);
+                        FacePlugin.callbackContext.sendPluginResult(pluginResult);
+                    } catch(Exception e) {}    
+                }                
+            } else {
+                if(m_mode == 1) {                    
+                    try {
+                        JSONObject face_boundary = new JSONObject();
+                        face_boundary.put("left", -1);
+                        face_boundary.put("top", -1);
+                        face_boundary.put("right", -1);
+                        face_boundary.put("bottom", -1);
     
-            //             JSONObject jo = new JSONObject();
-            //             jo.put("face_id", "");
-            //             jo.put("mask", 0);     
-            //             jo.put("liveness", 0);
-            //             jo.put("face_count", 0);
-            //             jo.put("face_boundary", face_boundary);
+                        JSONObject jo = new JSONObject();
+                        jo.put("face_id", "");
+                        jo.put("mask", 0);     
+                        jo.put("liveness", 0);
+                        jo.put("face_count", 0);
+                        jo.put("face_boundary", face_boundary);
                         
-            //             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jo);                        
-            //             pluginResult.setKeepCallback(true);
-            //             FacePlugin.callbackContext.sendPluginResult(pluginResult);
-            //         } catch(Exception e) {}    
-            //     }
-            // }
+                        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jo);                        
+                        pluginResult.setKeepCallback(true);
+                        FacePlugin.callbackContext.sendPluginResult(pluginResult);
+                    } catch(Exception e) {}    
+                }
+            }
             
             if(m_seekFrame == 1) {
                 m_seekFrame = 2;
             } else {
-                // sendMessage(MSG_UPDATE_FACE, faceResults);
+                sendMessage(MSG_UPDATE_FACE, faceResults);
             }
         }
         catch (Exception e)

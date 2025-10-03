@@ -65,14 +65,14 @@ public class FacePlugin extends CordovaPlugin {
                 JSONObject user =  user_list.getJSONObject(i);
                 String face_id = user.getString("face_id");
                 byte[] feat = Base64.decode(user.getString("data"), Base64.DEFAULT);
-                // FaceEngine.userLists.put(face_id,  CameraActivity.bytesToFloats(feat));
+                CameraActivity.userLists.put(face_id,  feat);
             }
             
             return true;
         } else if(action.equals("clear_data")) {
             
             Log.e("TestEngine", "clear_data ");
-            // FaceEngine.userLists.clear(); 
+            CameraActivity.userLists.clear(); 
             return true;
         } else if(action.equals("close_camera")) {
             Log.e("TestEngine", "close camera");
@@ -82,7 +82,10 @@ public class FacePlugin extends CordovaPlugin {
             JSONObject input = args.getJSONObject(0);
             String license = input.getString("license");
             int ret = FaceSDK.setActivation(license);
-
+            if(ret == 0) {
+                FaceSDK.init(cordova.getActivity().getApplicationContext().getAssets());
+            }
+            
             Log.e("TestEngine", "set activation: " + ret + " license: " + license);
 
             String applicationId = cordova.getActivity().getApplicationContext().getPackageName();

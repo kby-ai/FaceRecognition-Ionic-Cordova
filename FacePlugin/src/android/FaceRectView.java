@@ -276,10 +276,10 @@ public class FaceRectView extends View {
         int defX = rect.left;
         int defY = rect.bottom + rect.width() / 8;
 
-        if(drawInfo.getMaskInfo() >= 0) {
-            String strInfo1 = "Mask: " + (drawInfo.getMaskInfo() == 1 ? "Yes" : "No");
-            canvas.drawText(strInfo1, defX, defY, paint);
-        }
+        // if(drawInfo.getMaskInfo() >= 0) {
+        //     String strInfo1 = "Mask: " + (drawInfo.getMaskInfo() == 1 ? "Yes" : "No");
+        //     canvas.drawText(strInfo1, defX, defY, paint);
+        // }
     }
 
 }
