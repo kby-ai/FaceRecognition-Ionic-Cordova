@@ -147,7 +147,8 @@ npm install -g cordova
   ```bash
   ionic cordova prepare ios
   ```
-  <b>Add `Camera Permission` to `Info.plist`</b><br/>Open the `iOS` workspace in `Xcode`:
+  <b>Add `Camera` and `Photo Library` Permissions to `Info.plist`</b><br/>
+Open the iOS workspace in Xcode:
   ```bash
   open platforms/ios/face-recognition.xcworkspace
   ```
@@ -155,6 +156,9 @@ npm install -g cordova
   ```xml
   <key>NSCameraUsageDescription</key>
   <string>We need access to your camera for face recognition.</string>
+  
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>We need access to your photo library to select images for enrollment.</string>
   ```
   Build the app with `Xcode` and run it on a real `iOS` device, not simulator.
 
