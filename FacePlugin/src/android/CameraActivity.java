@@ -541,7 +541,7 @@ public class CameraActivity extends AppCompatActivity {
         super.onDestroy();
     }    
 
-    private static Rect getBestRect(int width, int height, Rect srcRect) {
+    public static Rect getBestRect(int width, int height, Rect srcRect) {
         if (srcRect == null) {
             return null;
         }

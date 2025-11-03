@@ -14,6 +14,11 @@ function update_data(user_list) {
     }, function(err){}, "FacePlugin", "update_data", [{user_list: user_list}]);
 };
 
+function face_register_from_image(image) {
+    exec(function(res){
+    }, function(err){}, "FacePlugin", "face_register_from_image", [{image: image}]);
+};
+
 function close_camera() {
     exec(function(res){
     }, function(err){}, "FacePlugin", "close_camera", []);    
@@ -28,6 +33,7 @@ module.exports = {
     face_register: face_register,
     face_recognize:face_recognize,
     update_data:update_data,
+    face_register_from_image:face_register_from_image,
     close_camera: close_camera,
     clear_data: clear_data
 };

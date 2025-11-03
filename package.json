@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "@awesome-cordova-plugins/camera": "^8.1.0",
     "@ionic/angular": "^8.0.0",
     "@ionic/cordova-builders": "^11.0.0",
     "ionicons": "^7.0.0",
@@ -44,6 +45,7 @@
     "@typescript-eslint/parser": "^6.0.0",
     "cordova-android": "13.0.0",
     "cordova-ios": "^7.1.1",
+    "cordova-plugin-camera": "^8.0.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^5.0.0",
@@ -71,7 +73,10 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
-      "com.ttv.face.plugin": {}
+      "com.ttv.face.plugin": {},
+      "cordova-plugin-camera": {
+        "ANDROIDX_CORE_VERSION": "1.6.+"
+      }
     },
     "platforms": [
       "android",

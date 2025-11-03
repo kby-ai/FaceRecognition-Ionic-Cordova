@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Platform, ToastController } from '@ionic/angular'; // <-- add ToastController
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 declare var cordova: any;
+
+
 
 @Component({
   selector: 'app-home',
@@ -11,12 +14,17 @@ declare var cordova: any;
 export class HomePage {
   user_list: any[] = [];
 
-  constructor(private platform: Platform, private toastController: ToastController) { // <-- inject here
+  constructor(
+    private platform: Platform,
+    private toastController: ToastController,
+    private camera: Camera
+  ) {
     this.platform.ready().then(() => {
       console.log('init home page');
       this.activateFaceSDK();
     });
   }
+  
 
   activateFaceSDK() {
     if (!window.hasOwnProperty('cordova')) return;
@@ -72,9 +80,9 @@ export class HomePage {
 
     cordova.exec(
       (success: any) => {
-        if (success?.face_id != null && success.face_id !== -1) {
-          const resultText = `Face ID: ${success.face_id}
-Liveness: ${success.liveness}
+        if (success?.face_id != null && success.face_id !== "" && success.face_id !== -1) {
+          const resultText = `Face ID: ${success.face_id}        
+          Liveness: ${success.liveness}
 Boundary: left=${success.face_boundary.left}, top=${success.face_boundary.top}, right=${success.face_boundary.right}, bottom=${success.face_boundary.bottom}`;
           
           // Show tooltip immediately
@@ -110,4 +118,54 @@ Boundary: left=${success.face_boundary.left}, top=${success.face_boundary.top}, 
       [{ user_list }]
     );
   }
+
+  enrollFromGallery() {
+  
+    // Prevent calling before Cordova is ready
+    if (!window.hasOwnProperty('cordova')) {
+      this.showTooltip("Cordova not ready");
+      return;
+    }
+  
+    const options: CameraOptions = {
+      quality: 80,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+    };
+  
+    this.camera.getPicture(options).then(
+      (imageData: string) => {
+        const base64Image = "data:image/jpeg;base64," + imageData;
+        console.log("Selected image:", base64Image.substring(0, 50) + "...");
+  
+        // Send image to FacePlugin (uncomment if implemented)
+        
+        cordova.exec(
+          (success: any) => {
+            console.log('Enroll from gallery success:', success);
+            success.face_id = this.user_list.length + 1;
+            this.user_list.push(success);
+            this.updateData(this.user_list);
+            this.showTooltip("Enrolled from gallery: Face ID " + success.face_id);
+          },
+          (error: any) => {
+            console.error('Enroll from gallery error:', error);
+            this.showTooltip("Failed to enroll from gallery");
+          },
+          'FacePlugin',
+          'face_register_from_image',
+          [{ image: base64Image }]
+        );
+        
+      },
+      (err: any) => {
+        console.error("Gallery error:", err);
+        this.showTooltip("Image selection cancelled or failed");
+      }
+    );
+  }
+  
 }

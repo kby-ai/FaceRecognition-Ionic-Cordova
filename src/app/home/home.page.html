@@ -13,7 +13,10 @@
 
   <div id="container">
     <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <p>
+      Start with Ionic
+      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a>
+    </p>
   </div>
 
   <ion-row>
@@ -29,6 +32,15 @@
         Identify
       </ion-button>
     </ion-col>
-  </ion-row>  
+  </ion-row>
 
+  <ion-row>
+    <ion-col>
+      <ion-button expand="full" (click)="enrollFromGallery()">
+        <ion-icon name="images" slot="start"></ion-icon>
+        Enroll from Gallery
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  
 </ion-content>
