@@ -220,6 +220,8 @@ extern NSMutableDictionary* g_user_list;
     [self.session startRunning];
 }
 
+
+
 - (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
 {
     // Get a CMSampleBuffer's Core Video image buffer for the media data
@@ -280,6 +282,26 @@ extern NSMutableDictionary* g_user_list;
     return cropped;
 }
 
+- (void)closeCamera {
+    if(self.session != nil && self.session.isRunning) {
+        [self.session stopRunning];
+        self.session = nil;
+    }
+
+    // Remove preview layer
+    if(self.previewLayer != nil) {
+        [self.previewLayer removeFromSuperlayer];
+        self.previewLayer = nil;
+    }
+
+    // Remove faceView
+    if(self.faceView != nil) {
+        [self.faceView removeFromSuperview];
+        self.faceView = nil;
+    }
+}
+
+
 #pragma mark AVCaptureAudioDataOutputSampleBufferDelegate
 - (void)captureOutput:(AVCaptureOutput *)output
 didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
@@ -287,12 +309,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     UIImage *image = [self imageFromSampleBuffer:sampleBuffer];
     
-    FaceDetectionParam* param = [[FaceDetectionParam alloc] init];
-    param.check_liveness = true;
-    param.check_mouth_opened = true;
-    param.check_eye_closeness = true;
-    param.check_face_occlusion = true;
-    NSMutableArray* face_results = [FaceSDK faceDetection:image param: param];
+    NSMutableArray* face_results = [FaceSDK faceDetection:image];
     
     if(face_results.count == 1) {
         FaceBox* face = [face_results objectAtIndex:0];

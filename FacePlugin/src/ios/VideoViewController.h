@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<VideoViewControllerDelegate> delegate;
 
 - (void)setArgment: (int)mode cam_id:(int)cam_id;
+- (void)closeCamera;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -138,7 +138,13 @@ Boundary: left=${success.face_boundary.left}, top=${success.face_boundary.top}, 
   
     this.camera.getPicture(options).then(
       (imageData: string) => {
-        const base64Image = "data:image/jpeg;base64," + imageData;
+        let base64Data = imageData;
+        if (base64Data.startsWith("data:image")) {
+          // iOS already includes prefix, so strip it
+          base64Data = base64Data.substring(base64Data.indexOf(",") + 1);
+        }
+        const base64Image = "data:image/jpeg;base64," + base64Data;
+
         console.log("Selected image:", base64Image.substring(0, 50) + "...");
   
         // Send image to FacePlugin (uncomment if implemented)
